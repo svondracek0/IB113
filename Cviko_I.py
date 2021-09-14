@@ -22,4 +22,4 @@ def fn_series(min = 1, max = 50):
 
 fn_series(1, 50)
 
-while
+
