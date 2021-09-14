@@ -14,3 +14,12 @@ def fn_class(x):
 
 
 fn_class(2)
+
+def fn_series(min = 1, max = 50):
+    for i in range(min, max + 1):
+        if i % 5 == 0:
+            print(i, end = "")
+
+fn_series(1, 50)
+
+while
