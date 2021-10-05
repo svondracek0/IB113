@@ -113,7 +113,7 @@ def dice_freq(count, lower, upper):
             min_cast = cast
         if max_cast < cast:
             max_cast = cast
-    print(max_cast, min_cast, sum_cast)
+    print('Nejvyssi hodnota = {}, nejnizsi hodnota = {}, prumer hodu = {}'.format(max_cast, min_cast, sum_cast/count))
 
 
 # Opilec na ceste domu
