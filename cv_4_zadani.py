@@ -142,12 +142,23 @@ def dice_freq(count, lower, upper):
 # (napriklad pridanim volitelneho parametru output a zapodminkovanim vypisu)
 # a aby vracela True dojde-li opilec domu a False pokud ne.
 
-
+import random as rd
 def drunkman_simulator(size, steps, output=False):
-    pass  # TODO
+    steps_counter = 0
+    position = size // 2
 
+    while steps_counter < steps:
+        position += rd.choice([-1, 1])
+        steps_counter += 1
+        if output:
+            print("home", (position - 1) * " . ", " * ", (size - position) * " . ", "pub")
+        if position == 0:
+            return "Got home!"
+        elif position == size:
+            return "Got to a pub!"
+    return "Exhausted fell asleep!"
 
-drunkman_simulator(10, 10)
+drunkman_simulator(10, 10, 1)
 
 
 # Nasledne napiste funkci, ktera provede simulaci opilce count krat a vypise
@@ -155,10 +166,15 @@ drunkman_simulator(10, 10)
 
 
 def drunkman_analysis(size, steps, count):
-    pass  # TODO
+    got_home_counter = 0
+    for i in range(count):
+        if drunkman_simulator(size, steps, False) == "Got home!":
+            got_home_counter += 1
+    print("Drunkman got home in", (got_home_counter/count) * 100, "% of cases")
 
 
-drunkman_analysis(10, 100, 100)
+
+drunkman_analysis(10, 10, 1000)
 print()
 
 
