@@ -5,10 +5,10 @@ from typing import List, Tuple, Optional
 
 
 def my_sum(numbers: List[int]) -> int:
-    list_sum = 0
-    for num in numbers:
-        list_sum += num
-    return list_sum
+    sum_rt = 0
+    for nm in numbers:
+        sum_rt += nm
+    return sum_rt
 
 
 print(my_sum([6, 5, 11, 8]))    # 30
@@ -17,11 +17,15 @@ print(my_sum([6, 5, 11, 8]))    # 30
 
 
 def my_max(numbers: List[int]) -> Optional[int]:
-    list_max = numbers[0]
-    for num in numbers:
-        if num > list_max:
-            list_max = num
-    return list_max
+    if len(numbers) == 0:
+        return numbers
+
+    max_num = numbers[0]
+    for nm in numbers:
+        if nm > max_num:
+            max_num = nm
+    return max_num
+
 
 
 print(my_max([6, 5, 11, 8]))    # 11
@@ -31,7 +35,11 @@ print(my_max([-10, -3, -5]))    # -3
 
 
 def my_in(num: int, numbers: List[int]) -> bool:
-    return num in numbers
+    for element in numbers:
+        if num == element:
+            return True
+    else:
+        return False
 
 
 print(my_in(5, [6, 5, 11, 8]))  # True
@@ -41,20 +49,17 @@ print(my_in(4, [6, 5, 11, 8]))  # False
 
 
 def odd_or_even(numbers: List[int]) -> None:
-    odds_n = 0
-    even_n = 0
-    for num in numbers:
-        if num % 2 == 0:
-            even_n += 1
-        else:
-            odds_n += 1
-    if odds_n == even_n:
-        return("Tie")
-    elif odds_n > even_n:
-        return("Odd")
+    odd_count = 0
+    for elem in numbers:
+        if elem % 2 != 0:
+            odd_count += 1
+    if odd_count / (len(numbers) / 2) == 1:
+        print("Tie")
+    elif odd_count / (len(numbers) / 2) > 1:
+        print("Odd")
     else:
-        return("Even")
-
+        print("Even")
+    
 
 odd_or_even([6, 5, 10, 8])  # Even
 odd_or_even([6, 5, 11, 7])  # Odd
@@ -66,18 +71,19 @@ print()
 # pripadne nuly.
 
 
+
+
 def nonzero_product(numbers: List[int]) -> int:
-    nonzero_seq = []
-    for num in numbers:
-        if num != 0:
-            nonzero_seq.append(num)
-    nonzero_initial = nonzero_seq[0]
-    for i in range(1, len(nonzero_seq)):
-        nonzero_initial *= nonzero_seq[i]
-    return nonzero_initial
+    product = 1
+    for i in range(1, len(numbers)):
+        if numbers[i] != 0:
+            product *= numbers[i]
+    return product
 
 
-nonzero_product([0])
+
+
+
 
 
 
@@ -86,10 +92,9 @@ nonzero_product([0])
 
 
 def double_all(numbers: List[int]) -> None:
-    list_doubled = []
-    for num in numbers:
-        list_doubled.append(2 * num)
-    return list_doubled
+    for i in range(len(numbers)):
+        numbers[i] = 2 * numbers[i]
+    return numbers
 
 
 # Napiste funkci create_doubled, ktera dostane na vstupu seznam cisel a vrati
@@ -98,10 +103,10 @@ def double_all(numbers: List[int]) -> None:
 
 
 def create_doubled(numbers: List[int]) -> List[int]:
-    list_doubled = []
-    for num in numbers:
-        list_doubled.append(2 * num)
-    return list_doubled
+    num_rtrn = []
+    for elem in numbers:
+        num_rtrn.append(2 * elem)
+    return num_rtrn
 
 
 # Napiste funkci, jejimz vstupem je seznam seznamu a vystupem je seznam, ktery
@@ -110,10 +115,10 @@ def create_doubled(numbers: List[int]) -> List[int]:
 # [[1, 2, 3], [4], [5]] -> [1, 2, 3, 4, 5]
 
 def flatten(lists: List[List[int]]) -> List[int]:
-    list_flattened = []
+    list_flt = []
     for lst in lists:
-        list_flattened += lst
-    return list_flattened
+        list_flt += lst
+    return list_flt
 
 
 # Napiste funkci, ktera zasifruje text podle predem daneho klice. Pro posun
@@ -139,6 +144,9 @@ def vigenere(text: str, key: str) -> str:
         text_returnable += chr(ord(text[i]) + ord(key_iterated[i]) - ord("A"))
     return text_returnable
 
+
+
+
 # abcdefgh, 3
 # cbafedhg
 
@@ -147,15 +155,12 @@ def vigenere(text: str, key: str) -> str:
 # kde jednotlive n-tice budou vzdy pozpatku.
 
 def tuple_reverse(text: str, n_tuple: int) -> str:
-    lower_counter = 0
-    upper_counter = n_tuple - 1
-    text_return = ""
-    for i in range(len(text)//n_tuple + 1):
-        text_return += text[upper_counter::-1]
-        lower_counter = upper_counter
-        upper_counter = upper_counter + n_tuple
-    return(text_return[:len(text)])
-
+    ind_first = 0
+    ind_last = n_tuple
+    rev_txt = ""
+    for i in range(len(text) // n_tuple + 1):
+    rev_txt += text[ind_last:ind_first:-1]
+    return rev_txt
 
 
 ########################################################################
