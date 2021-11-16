@@ -1,14 +1,12 @@
 import re
+from typing import Dict, List
 
 # Napiste funkci, ktera vrati soucet vsech hodnot ulozenych ve slovniku.
 # Napr. d1 = {'a': 100, 'b': 200, 'c':300} => 600
 
 
-
-
-def dict_sum(dct):
-    dct_vals = sum(dct.values())
-    return dct_vals
+def dict_sum(dct: Dict[str, int]) -> int:
+    return sum(dct.values())
 
 
 # Napiste funkci, ktera vezme dva slovniky a vrati novy, ktery obsahuje jejich
@@ -20,16 +18,16 @@ def dict_sum(dct):
 # => {'a': 400, 'b': 400, 'd': 400, 'c': 300}
 
 
-def add_two_dictionaries(dct_1, dct_2):
-    from collections import Counter
-    dicts_added = dict(Counter(dct_1) + Counter(dct_2))
-    return dicts_added
 
+def add_two_dictionaries(dct_1: Dict[str, int], dct_2: Dict[str, int]) -> Dict[str, int]:
+    dct_added = dict(dct_2)
 
-
-
-
-
+    for key in dct_1:
+        if key in dct_2.keys():
+            dct_added[key] = dct_1[key] + dct_2[key]
+        else:
+            dct_added[key] = dct_1[key]
+    return dct_added
 
 
 
@@ -37,39 +35,37 @@ def add_two_dictionaries(dct_1, dct_2):
 # slovnik (bez duplicit).
 
 
-
-def unique_values(dct):
+def unique_values(dct: Dict[str, int]) -> List[int]:
     dct_vals = []
-    for i in range(len(list(dct.values()))):
-        if list(dct.values())[i] not in dct_vals:
-            dct_vals.append(list(dct.values())[i])
-    return sorted(dct_vals)
+    for val in dct.values():
+        if val not in dct_vals:
+            dct_vals.append(val)
+    return dct_vals
+
+
 
 # Nactete text ze souboru maj.txt a vypiste ho na obrazovku
 
 
-def show_file_text():
-    with open("maj.txt", "r") as textfile:
+def show_file_text() -> None:
+    with open("maj.txt", "r", encoding = "utf-8") as textfile:
         for line in textfile:
-            print(line, end = "")
-
+            print(line, end = " ")
 
 show_file_text()
 
 # Misto vypsani na obrazovku je zkopirujte do noveho souboru.
 
-print()
-print()
 
-def copy_to_other_file():
-    maj_lst = []
-    with open("maj.txt", "r") as textfile:
+def copy_to_other_file() -> None:
+    maj_textlist = []
+    with open("maj.txt", "r", encoding = "utf-8") as textfile:
         for line in textfile:
-            maj_lst.append(line)
-    with open("maj_copy.txt", "w") as textfile:
-        for elem in maj_lst:
-            textfile.write(elem)
+            maj_textlist.append(line)
 
+    with open("maj_copy.txt", "w", encoding = "utf-8") as textfile:
+        for element in maj_textlist:
+            textfile.write(element)
 
 
 copy_to_other_file()
@@ -78,14 +74,15 @@ copy_to_other_file()
 # posledni pismeno bude prvni v novem souboru, predposledni druhe, ...)
 
 
-def reversed_copy():
-    maj_lst_rev = []
-    with open("maj.txt", "r") as textfile:
+def reversed_copy() -> None:
+    maj_textlist = []
+    with open("maj.txt", "r", encoding="utf-8") as textfile:
         for line in textfile:
-            maj_lst_rev.insert(0, line)
-    with open("maj_copy_rev.txt", "w") as textfile:
-        for elem in maj_lst_rev:
-            textfile.write(elem[::-1])
+            maj_textlist.insert(0, line)
+
+    with open("maj_reverse.txt", "w", encoding="utf-8") as textfile:
+        for element in maj_textlist:
+            textfile.write(element[::-1])
 
 
 reversed_copy()
@@ -93,28 +90,38 @@ reversed_copy()
 # Obratte pouze poradi slov (posledni slovo bude na prvnim miste, predposledni
 #  na druhem, ...), ale neobracejte poradi pismen v jednotlivych slovech
 
-def reverse_word_order(lst: list):
-    maj_lst_wrev = []
-    with open("maj.txt", "r") as textfile:
-        for line in textfile:
-            words = line.split()
-            words_rev = ' '.join(reversed(words))
-            maj_lst_wrev.insert(0, words_rev)
-    print(maj_lst_wrev)
-    with open("maj_copy_wrev.txt", "w") as textfile:
-        for elem in maj_lst_wrev:
-            textfile.write(elem[::-1])
+print()
+print()
 
-    reverse_word_order()
+def reversed_words_copy() -> None:
+    maj_textlist = []
+    word_reverse = ""
+    with open("maj.txt", "r", encoding="utf-8") as textfile:
+        for line in textfile:
+            maj_textlist.append(line)
+
+    for element in maj_textlist:
+        line_split = element.split(" ")
+        for words in line_split:
+            # words = words[::-1]
+            word_reverse = words + " " + word_reverse
+
+    print("".join(word_reverse))
+
+
+
+reversed_words_copy()
 
 
 # Nactete data ze souboru do vhodne struktury
 
 import re
 def load_data():
+
     # Poznamka: sherlock-holmes.txt musi byt ve stejnem adresari jako skript
-    with open('sherlock-holmes.txt', 'r', encoding = "utf-8") as file:
-        dct = {}
+    with open('sherlock-holmes.txt', 'r', encoding="utf-8") as file:
+        dct: Dict[str, int] = {}
+
         # nacitani dat do slovniku
         for line in file:
             clear_line = re.sub('\W+', ' ', line)  # nechat jen pismena
@@ -126,22 +133,21 @@ def load_data():
     return dct
 
 
-
+holmes_data = load_data()
 
 # Top 10 nejcastejsich slov
 
-def top_ten(data):
-    print(sorted(data.items(), reverse = True, key = lambda x: x[1])[0:10])
+def top_ten(data: Dict[str, int]) -> None:
+    print(sorted(data.items(), reverse=True, key=lambda x: x[1])[0:10])
 
 
 # Prumerna delka slova v textu
 
 
-
-def word_average(data):
-    wordcount = sum(data.values())
-    average = sum(len(w) * c for w, c in data.items()) / wordcount
-    print(f'The text comprises of {wordcount} words with average length of {round(average, 2)} characters')
+def word_average(data: Dict[str, int]) -> None:
+        wordcount = sum(data.values())
+        average = sum(len(w) * c for w, c in data.items()) / wordcount
+        print(f'The text comprises of {wordcount} words with average length of {round(average, 2)} characters')
 
 
 ########################################################################
@@ -152,7 +158,7 @@ ib113_dict_sum_in = ([{'a': 100, 'b': 200, 'c': 300}, {'x': 1000}])
 ib113_dict_sum_out = (600, 1000)
 
 
-def ib113_test_dict_sum():
+def ib113_test_dict_sum() -> None:
     print("Testovani funkce dict_sum: ", end="")
     failure = False
 
@@ -183,7 +189,7 @@ ib113_add_two_dictionaries_in = ([({'a': 100, 'b': 200, 'c': 300},
 ib113_add_two_dictionaries_out = [{'a': 400, 'b': 400, 'd': 400, 'c': 300}]
 
 
-def ib113_test_add_two_dictionaries():
+def ib113_test_add_two_dictionaries() -> None:
     print("Testovani funkce add_two_dictionaries: ", end="")
     failure = False
 
@@ -216,7 +222,7 @@ ib113_unique_values_in = ([{'a': 5, 'b': 5, 'c': 4},
 ib113_unique_values_out = ([4, 5], [1, 5], [1, 5])
 
 
-def ib113_test_unique_values():
+def ib113_test_unique_values() -> None:
     print("Testovani funkce unique_values: ", end="")
     failure = False
 
@@ -228,7 +234,7 @@ def ib113_test_unique_values():
             print("Nebyla vracena hodnota typu list, "
                   "ale typu {}".format(type(res)))
             break
-        if res != ib113_unique_values_out[i]:
+        if sorted(res) != sorted(ib113_unique_values_out[i]):
             failure = True
             print("NOK")
             print("Pro vstup \"{}\" nebyl vracen spravny vysledek"
